@@ -34,7 +34,7 @@ export default class Loader {
         light.position.set(0, -10, 10);
         this.scene.add(light);
 
-        window.addEventListener('resize', this.onWindowResize, false);
+        window.addEventListener('resize', () => { this.onWindowResize(); }, false);
 
         console.log(this.getCamera());
     }
@@ -61,7 +61,10 @@ export default class Loader {
     }
 
     private onWindowResize() {
-        console.log(this.getCamera());
+        let aspectRatio = (window.innerWidth * this.getWidthScalar()) / (window.innerHeight * this.getHeightScalar());
+        this.camera.aspect = aspectRatio;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth * this.getWidthScalar(), window.innerHeight * this.getHeightScalar());
     }
 
     public animate() {
